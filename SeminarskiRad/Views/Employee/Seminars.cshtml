@@ -1,0 +1,76 @@
+﻿@model IEnumerable<SeminarskiRad.Models.SeminarViewModel>
+
+@{
+    SeminarskiRadEntities Context = new SeminarskiRadEntities();
+    ViewBag.Title = "Seminari";
+}
+<br />
+
+@using (Html.BeginForm("Seminars", "Employee",
+            null,
+            FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    <div class="form-group">
+    @Html.Label("Pretraga:", new { @class = "label-control col-md-1", style="margin-top:5px" })
+       <div class="form-horizontal">
+    @Html.TextBox("search", null, new { @class = "form-control col-md-1" })
+       </div>
+    <input type="submit" value="Pretraži" class="btn btn-success " style="margin-left:10px" />
+    </div>
+}
+
+<p>
+    @Html.ActionLink("Novi seminar", "Upsert", null, new { @class = "btn btn-primary" })
+</p>
+
+
+<table class="table table-bordered table-striped">
+    <tr>
+        <th style="width:auto">
+
+        </th>
+        <th style="width:200px">
+            @Html.DisplayName("Seminar")
+        </th>
+        <th style="width:400px">
+            @Html.DisplayName("Opis seminara")
+        </th>
+        <th>
+            @Html.DisplayName("Datum")
+        </th>
+        <th>
+            @Html.DisplayName("Popunjen")
+        </th>
+        <th>
+            @Html.DisplayName("Broj polaznika")
+        </th>
+
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <th>
+                @Html.ActionLink("Uredi", "Upsert", new { id = item.IdSeminar }) |
+                @Html.ActionLink("Obriši", "Delete", new { id = item.IdSeminar }, new { onclick = "return confirm('Da li sigurno želite obrisati seminar?');" })
+            </th>
+            <td>
+                @Html.DisplayFor(modelItem => item.Naziv)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Opis)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Datum)
+            </td>
+            <td class="text-center">
+                @Html.CheckBoxFor(modelItem => item.Popunjen, new { disabled = "disabled" })
+            </td>
+            <td class="text-center">
+                @Context.Predbiljezba.Where(b => b.IdSeminar == item.IdSeminar).Count()
+            </td>
+
+        </tr>
+    }
+
+</table>

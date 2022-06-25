@@ -1,0 +1,62 @@
+﻿@model IEnumerable<SeminarskiRad.Models.SeminarViewModel>
+
+
+@{
+    ViewBag.Title = "Predbilježba";
+}
+
+<br />
+@using (Html.BeginForm("PreRegistration", "Anonymous",
+            null,
+            FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    <div class="form-group">
+        @Html.Label("Pretraga:", new { @class = "label-control col-md-1", style = "margin-top:5px" })
+        <div class="form-horizontal">
+            @Html.TextBox("search", null, new { @class = "form-control col-md-1" })
+        </div>
+        <input type="submit" value="Pretraži" class="btn btn-success " style="margin-left:10px" />
+    </div>
+}
+
+<table class="table table-striped table-bordered">
+    <tr>
+        <th>
+        </th>
+        <th>
+            @Html.DisplayName("Seminar")
+        </th>
+        <th>
+            @Html.DisplayName("Opis seminara")
+        </th>
+        <th>
+            @Html.DisplayName("Datum")
+        </th>
+        <th>
+            @Html.DisplayName("Predavač")
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink("Odaberi", "PreRegistrationInput", new { id = item.IdSeminar })
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Naziv)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Opis)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Datum)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Predavac)
+            </td>
+
+        </tr>
+    }
+
+</table>
